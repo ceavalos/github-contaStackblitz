@@ -1,8 +1,9 @@
 export interface IEmpresas {
-  idempresa: number;
-  nombre : string;
-  representante: string;
-  direccion : string;
-  nit: string;
-  activa: boolean;
+  id?: string;
+  nombre?: string;
+  representante?: string;
+  direccion?: string;
+  nit?: string;
+  activa?: boolean;
+  fotografia?:string;
 }
