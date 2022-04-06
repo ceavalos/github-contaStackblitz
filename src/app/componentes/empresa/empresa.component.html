@@ -1,0 +1,31 @@
+
+    <div class="container">
+      <p>empresa works!</p>
+
+      <ul>
+        <li *ngFor="let item of empresas">
+           {{item.nombre}}
+        </li>
+      </ul>
+
+      <p-table [value]="empresas" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Nomrbre</th>
+                <th>Direccion</th>
+                <th>Representante</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.id}}</td>
+                <td>{{product.nombre}}</td>
+                <td>{{product.direccion}}</td>
+                <td>{{product.representante}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+    </div>
