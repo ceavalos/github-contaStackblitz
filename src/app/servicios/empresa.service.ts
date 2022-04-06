@@ -14,9 +14,9 @@ export class EmpresaService implements OnInit{
   constructor() {this.empresas = EMPRESAS  }
 
   getAll() : Empresa[]{
-    // console.log("Antes de get all en empresaService");
-     //console.log(this.empresas)
-     //console.log(this.empresas)
+     console.log("Antes de get all en empresaService");
+     console.log(this.empresas)
+     console.log(this.empresas)
      return this.empresas;
 
   };
