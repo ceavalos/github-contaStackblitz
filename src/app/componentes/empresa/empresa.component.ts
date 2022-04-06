@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {EmpresaService} from '../../servicios/empresa.service';
 import {Empresa} from '../../modelos/empresa'
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-empresa',
@@ -9,10 +11,21 @@ import {Empresa} from '../../modelos/empresa'
 })
 export class EmpresaComponent implements OnInit {
 
+  
+  productDialog: boolean;
+  
   public empresas : Empresa[];
+  
 
-  constructor(private _empresaService: EmpresaService ) { };
+  empresa: Empresa;
 
+  selectedEmpresas: Empresa[];
+
+  submitted: boolean;
+
+  constructor(private _empresaService: EmpresaService, 
+              private messageService:     MessageService, 
+              private confirmationService: ConfirmationService ) { };
 
   ngOnInit() {
     this.getAll();
@@ -20,7 +33,8 @@ export class EmpresaComponent implements OnInit {
 
    getAll(){
     //console.log("antes de actualizar")
-    this.empresas = this._empresaService.getAll();
+    //this.empresas = this._empresaService.getAll();
+    this._empresaService.getAll().then(data => this.empresas = data);
 
    }
 
