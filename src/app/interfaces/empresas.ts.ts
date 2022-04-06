@@ -5,5 +5,5 @@ export interface IEmpresas {
   direccion?: string;
   nit?: string;
   activa?: boolean;
-  fotografia?:string;
+  image?: string;
 }

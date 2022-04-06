@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {EmpresaService} from '../../servicios/empresa.service';
-import {Empresa} from '../../modelos/empresa'
+import { EmpresaService } from '../../servicios/empresa.service';
+import { Empresa } from '../../modelos/empresa';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
-  styleUrls: ['./empresa.component.css']
+  styleUrls: ['./empresa.component.css'],
 })
 export class EmpresaComponent implements OnInit {
+  Dialog: boolean;
 
-  
-  productDialog: boolean;
-  
-  public empresas : Empresa[];
-  
+  public empresas: Empresa[];
 
   empresa: Empresa;
 
@@ -23,19 +20,124 @@ export class EmpresaComponent implements OnInit {
 
   submitted: boolean;
 
-  constructor(private _empresaService: EmpresaService, 
-              private messageService:     MessageService, 
-              private confirmationService: ConfirmationService ) { };
+  constructor(
+    private _empresaService: EmpresaService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit() {
     this.getAll();
   }
 
-   getAll(){
+  getAll() {
     //console.log("antes de actualizar")
     //this.empresas = this._empresaService.getAll();
-    this._empresaService.getAll().then(data => this.empresas = data);
+    this._empresaService.getAll().then((data) => (this.empresas = data));
+  }
 
-   }
+  openNew() {
+    this.empresa = {};
+    this.submitted = false;
+    this.Dialog = true;
+  }
 
+  deleteSelectedEmpresa() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected Companies?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.empresas = this.empresas.filter(
+          (val) => !this.selectedEmpresas.includes(val)
+        );
+        this.selectedEmpresas = null;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Empresas Deleted',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  editProduct(empresa: Empresa) {
+    this.empresa = { ...empresa };
+    this.Dialog = true;
+  }
+
+  deleteProduct(empresa: Empresa) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + empresa.nombre + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.empresas = this.empresas.filter((val) => val.id !== empresa.id);
+        this.empresa = {};
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Empresa Deleted',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  hideDialog() {
+    this.Dialog = false;
+    this.submitted = false;
+  }
+  saveProduct() {
+    this.submitted = true;
+
+    if (this.empresa.nombre.trim()) {
+      if (this.empresa.id) {
+        this.empresas[this.findIndexById(this.empresa.id)] = this.empresa;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Empresa Updated',
+          life: 3000,
+        });
+      } else {
+        this.empresa.id = this.createId();
+        this.empresa.image = 'product-placeholder.svg';
+        this.empresas.push(this.empresa);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Empresa Created',
+          life: 3000,
+        });
+      }
+
+      this.empresas = [...this.empresas];
+      this.Dialog = false;
+      this.empresa = {};
+    }
+  }
+
+  findIndexById(id: string): number {
+    let index = -1;
+    for (let i = 0; i < this.empresas.length; i++) {
+      if (this.empresas[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
+  }
+
+  createId(): string {
+    let id = '';
+    var chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 5; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
+  }
 }
