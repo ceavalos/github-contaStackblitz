@@ -20,6 +20,8 @@ export class EmpresaComponent implements OnInit {
 
   submitted: boolean;
 
+  statuses: any[];
+
   constructor(
     private _empresaService: EmpresaService,
     private messageService: MessageService,
@@ -28,6 +30,11 @@ export class EmpresaComponent implements OnInit {
 
   ngOnInit() {
     this.getAll();
+
+    this.statuses = [
+      { label: 'ACTIVA', value: 'true' },
+      { label: 'INACTIVA', value: 'false' },
+    ];
   }
 
   getAll() {
@@ -90,7 +97,7 @@ export class EmpresaComponent implements OnInit {
     this.Dialog = false;
     this.submitted = false;
   }
-  saveEmpersa() {
+  saveEmpresa() {
     this.submitted = true;
 
     if (this.empresa.nombre.trim()) {

@@ -23,14 +23,6 @@
     </ng-template>
 
     <ng-template pTemplate="right">
-      <p-fileUpload
-        mode="basic"
-        accept="image/*"
-        [maxFileSize]="1000000"
-        label="Import"
-        chooseLabel="Import"
-        class="p-mr-2 p-d-inline-block"
-      ></p-fileUpload>
       <button
         pButton
         pRipple
@@ -46,6 +38,8 @@
     [value]="empresas"
     [rows]="10"
     [paginator]="true"
+    [globalFilterFields]="['nombre','representante']"
+    responsiveLayout="scroll"
     [(selection)]="selectedEmpresas"
     [rowHover]="true"
     dataKey="id"
@@ -132,11 +126,12 @@
 >
   <ng-template pTemplate="content">
     <div class="field">
-      <label for="name">Nombre</label>
+      <label for="name">Nombre Empresa</label>
       <input
         type="text"
         pInputText
         id="name"
+        placeholder="Nombre de la Empresa"
         [(ngModel)]="empresa.nombre"
         required
         autofocus
@@ -145,36 +140,65 @@
         >Name is required.</small
       >
     </div>
+
+    <div class="p-field">
+      <label for="description">Direccion</label>
+      <textarea
+        id="direccion"
+        pInputTextarea
+        [(ngModel)]="empresa.direccion"
+        required
+        rows="3"
+        cols="20"
+      ></textarea>
+    </div>
+
+    <div class="p-field">
+      <label for="representante">Representate</label>
+
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="empresa.representante"
+        placeholder="Nombre del Representante"
+      />
+    </div>
+
+    <div class="field">
+      <label for="empresaStatus">Empresa Status</label>
+      <p-dropdown
+        [(ngModel)]="empresa.activa"
+        inputId="activa"
+        [options]="statuses"
+        placeholder="Select"
+      >
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{
+            option.label
+          }}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveEmpresa()"
+    ></button>
   </ng-template>
 </p-dialog>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-
-<div class="container">
-  <p>empresa works!</p>
-
-  <ul>
-    <li *ngFor="let item of empresas">
-      {{ item.nombre }}
-    </li>
-  </ul>
-
-  <p-table [value]="empresas" responsiveLayout="scroll">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Id</th>
-        <th>Nomrbre</th>
-        <th>Direccion</th>
-        <th>Representante</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product>
-      <tr *ngFor="let item of empresas">
-        <td>{{ item.nombre }}</td>
-        <td>{{ item.nombre }}</td>
-        <td>{{ item.direccion }}</td>
-        <td>{{ item.representante }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
