@@ -98,10 +98,57 @@
         <td>{{ empresa.direccion }}</td>
         <td>{{ empresa.representante }}</td>
         <td>{{ empresa.activa }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="editEmpresa(empresa)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteEmpresa(empresa)"
+          ></button>
+        </td>
       </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ empresas ? empresas.length : 0 }} empresas.
+      </div>
     </ng-template>
   </p-table>
 </div>
+<p-dialog
+  [(visible)]="Dialog"
+  [style]="{ width: '450px' }"
+  header="Empresa Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">Nombre</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="empresa.nombre"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !empresa.nombre"
+        >Name is required.</small
+      >
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
 <div class="container">
   <p>empresa works!</p>

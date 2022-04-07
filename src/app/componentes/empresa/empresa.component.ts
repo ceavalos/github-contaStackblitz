@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { Empresa } from '../../modelos/empresa';
 import { ConfirmationService } from 'primeng/api';
@@ -62,12 +62,13 @@ export class EmpresaComponent implements OnInit {
     });
   }
 
-  editProduct(empresa: Empresa) {
+  editEmpresa(empresa: Empresa) {
     this.empresa = { ...empresa };
     this.Dialog = true;
   }
 
-  deleteProduct(empresa: Empresa) {
+  deleteEmpresa(empresa: Empresa) {
+    console.log('Dentro de borrar');
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete ' + empresa.nombre + '?',
       header: 'Confirm',
@@ -89,7 +90,7 @@ export class EmpresaComponent implements OnInit {
     this.Dialog = false;
     this.submitted = false;
   }
-  saveProduct() {
+  saveEmpersa() {
     this.submitted = true;
 
     if (this.empresa.nombre.trim()) {
