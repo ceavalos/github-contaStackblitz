@@ -81,7 +81,9 @@ export class EmpresaComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        
         this.empresas = this.empresas.filter((val) => val.id !== empresa.id);
+        
         this.empresa = {};
         this.messageService.add({
           severity: 'success',
