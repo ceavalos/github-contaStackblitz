@@ -102,6 +102,7 @@ export class EmpresaComponent implements OnInit {
 
     if (this.empresa.nombre.trim()) {
       if (this.empresa.id) {
+       
         this._empresaService
           .update(this.empresa)
           .then((data) => (this.empresas = data));
@@ -115,8 +116,8 @@ export class EmpresaComponent implements OnInit {
           life: 3000,
         });
       } else {
-        this.empresa.id = this.createId();
-        this.empresa.image = 'product-placeholder.svg';
+        //this.empresa.id = this.createId();
+        //this.empresa.image = 'product-placeholder.svg';
 
         this._empresaService
           .adicionar(this.empresa)

@@ -28,6 +28,8 @@ export class EmpresaService implements OnInit {
   s;
   //adicionar
   async adicionar(dato: Empresa) {
+    dato.id = this.createId();
+    dato.image = 'product-placeholder.svg';
     this.empresas.push(dato);
     return await Promise.all(this.empresas);
   }
