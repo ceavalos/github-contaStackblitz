@@ -102,7 +102,12 @@ export class EmpresaComponent implements OnInit {
 
     if (this.empresa.nombre.trim()) {
       if (this.empresa.id) {
-        this.empresas[this.findIndexById(this.empresa.id)] = this.empresa;
+        this._empresaService
+          .update(this.empresa)
+          .then((data) => (this.empresas = data));
+
+        //this.empresas[this.findIndexById(this.empresa.id)] = this.empresa;
+
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -112,7 +117,12 @@ export class EmpresaComponent implements OnInit {
       } else {
         this.empresa.id = this.createId();
         this.empresa.image = 'product-placeholder.svg';
-        this.empresas.push(this.empresa);
+
+        this._empresaService
+          .adicionar(this.empresa)
+          .then((data) => (this.empresas = data));
+        // this.empresas.push(this.empresa);
+
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',

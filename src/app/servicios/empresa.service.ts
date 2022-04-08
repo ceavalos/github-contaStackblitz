@@ -22,13 +22,41 @@ export class EmpresaService implements OnInit {
   }
 
   //Buscar por id
-  getId(id: number) {
-    return this.empresas.filter((fil) => fil.idempresa === id);
+  getId(id: string) {
+    return this.empresas.filter((fil) => fil.id === id);
   }
   s;
   //adicionar
-  adicionar(dato: Empresa) {
+  async adicionar(dato: Empresa) {
     this.empresas.push(dato);
-    this.getAll();
+    return await Promise.all(this.empresas);
   }
+
+  async update(empresa: Empresa) {
+    this.empresas[this.findIndexById(empresa.id)] = empresa;
+    return await Promise.all(this.empresas);
+  }
+
+  findIndexById(id: string): number {
+    let index = -1;
+    for (let i = 0; i < this.empresas.length; i++) {
+      if (this.empresas[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
+  }
+
+  createId(): string {
+    let id = '';
+    var chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 5; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
+  }
+
 }
